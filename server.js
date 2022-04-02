@@ -3,6 +3,8 @@
 const express = require("express");
 //IMPORT MORGAN, MIDDLEWARE library for logging with EXPRESS SERVER
 const morgan = require("morgan");
+//IMPORT 'campsiteRouter' from routes/campsiteRouter.js
+const campsiteRouter = require("./routes/campsiteRouter");
 
 const hostname = "localhost";
 const port = 3000;
@@ -15,56 +17,64 @@ app.use(morgan("dev"));
 app.use(express.json());
 //^^^Built-in MIDDLEWARE FUNCTION that handles parsing REQUESTS with json in the BODY into jS OBJECTS
 
+//Add route path for 'campsiteRouter'
+app.use("/campsites", campsiteRouter);
+
+//**ROUTING METHODS for the '/campsites' PATH are now moved to 'routes/campsiteRouter' */
+
 //Add support for REST API ROUTING METHODS. use app.all() to set some defaults for all ROUTING METHODS
-app.all("/campsites", (req, res, next) => {
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "text/plain");
-  next();
-  //pass control of application routing to next relevant ROUTING METHOD
-});
+// app.all("/campsites", (req, res, next) => {
+//   res.statusCode = 200;
+//   res.setHeader("Content-Type", "text/plain");
+//   next();
+//   //pass control of application routing to next relevant ROUTING METHOD
+// });
 
-//Next ROUTING METHOD handling GET REQUESTS
-app.get("/campsites", (req, res) => {
-  res.end("Will send all the campsites to you.");
-});
+// //Next ROUTING METHOD handling GET REQUESTS
+// app.get("/campsites", (req, res) => {
+//   res.end("Will send all the campsites to you.");
+// });
 
-app.post("/campsites", (req, res) => {
-  res.end(
-    `Will add the campsite: ${req.body.name} with description: ${req.body.description}`
-  );
-});
+// app.post("/campsites", (req, res) => {
+//   res.end(
+//     `Will add the campsite: ${req.body.name} with description: ${req.body.description}`
+//   );
+// });
 
-app.put("/campsites", (req, res) => {
-  res.statusCode = 403;
-  res.end("PUT operation not supported on /campsites.");
-});
+// app.put("/campsites", (req, res) => {
+//   res.statusCode = 403;
+//   res.end("PUT operation not supported on /campsites.");
+// });
 
-app.delete("/campsites", (req, res) => {
-  res.end("Deleting all campsites.");
-});
+// app.delete("/campsites", (req, res) => {
+//   res.end("Deleting all campsites.");
+// });
 
 //Add support for ROUTE PARAMETER 'campsiteID', enables functionality of requests for specific campsites
-app.get("/campsites/:campsiteId", (req, res) => {
-  res.end(
-    `Will send details of the campsite: ${req.params.campsiteId} to you.`
-  );
-});
 
-app.post("/campsites/:campsiteId", (req, res) => {
-  res.statusCode = 403;
-  res.end(`POST operation not supported on campsites/${req.params.campsiteId}`);
-});
+//**ROUTES with the '/:campsiteId' ROUTE PARAMETER to be moved to '/routes/campsiteRouter */
 
-app.put("/campsites/:campsiteId", (req, res) => {
-  res.write(`Updating the campsite: ${req.params.campsiteId}\n`);
-  res.end(
-    `Will update the campsite: ${req.body.name} with the description: ${req.body.description}`
-  );
-});
+// app.get("/campsites/:campsiteId", (req, res) => {
+//   res.end(
+//     `Will send details of the campsite: ${req.params.campsiteId} to you.`
+//   );
+// });
 
-app.delete("/campsites/:campsiteId", (req, res) => {
-  res.end(`Deleting campsite: ${req.params.campsiteId}`);
-});
+// app.post("/campsites/:campsiteId", (req, res) => {
+//   res.statusCode = 403;
+//   res.end(`POST operation not supported on campsites/${req.params.campsiteId}`);
+// });
+
+// app.put("/campsites/:campsiteId", (req, res) => {
+//   res.write(`Updating the campsite: ${req.params.campsiteId}\n`);
+//   res.end(
+//     `Will update the campsite: ${req.body.name} with the description: ${req.body.description}`
+//   );
+// });
+
+// app.delete("/campsites/:campsiteId", (req, res) => {
+//   res.end(`Deleting campsite: ${req.params.campsiteId}`);
+// });
 
 app.use(express.static(__dirname + "/public"));
 
