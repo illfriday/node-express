@@ -5,6 +5,8 @@ const express = require("express");
 const morgan = require("morgan");
 //IMPORT 'campsiteRouter' from routes/campsiteRouter.js
 const campsiteRouter = require("./routes/campsiteRouter");
+const promotionRouter = require("./routes/promotionRouter");
+const partnerRouter = require("./routes/partnerRouter");
 
 const hostname = "localhost";
 const port = 3000;
@@ -19,6 +21,8 @@ app.use(express.json());
 
 //Add route path for 'campsiteRouter'
 app.use("/campsites", campsiteRouter);
+app.use("/promotions", promotionRouter);
+app.use("/partners", partnerRouter);
 
 //**ROUTING METHODS for the '/campsites' PATH are now moved to 'routes/campsiteRouter' */
 
